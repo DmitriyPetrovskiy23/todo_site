@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+  <meta charset="utf-8">
+  <title>{{title}}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{% static 'css/style.css'%}" type="text/css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body class="container-fluid">
+
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert alert-info">
+    <strong>{{message}}</strong>
+  </div>
+  {% endfor %}
+  {% endif %}
+
+  <header class="text-center">
+    <h1><i>__TODO LIST__</i></h1>
+    <hr />
+  </header>
+
+  <div class="row">
+
+    <div class="col-md-3" >
+      <div class="submit_form">
+        <form  method="POST">
+          {% csrf_token %}
+          {{forms}}
+          <input type="submit" class="btn btn-default" value="submit" />
+        </form>
+      </div>
+    </div>
+    <div class="col-md-1"> </div>
+    <div class="col-md-7">
+
+      {% for i in list %}
+      <div class="card">
+        <header class="text-center"><b>{{i.title}}</b></header>
+        <hr/>
+        {{i.date}}
+        <hr/>
+        {{i.details}}
+        <br />
+        <br />
+        <form action="/del/{{i.id}}" method="POST">
+          {% csrf_token %}
+          <button value="remove" type="submit"  class="btn btn-primary" style="float: right;"><span class="glyphicon glyphicon-trash"></span> &nbsp; remove</button>
+        </form>
+      </div>
+      {% endfor%}
+
+
+  </div>
+</div>
+</body>
+
+</html>
